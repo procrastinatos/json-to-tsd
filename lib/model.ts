@@ -2,7 +2,7 @@
 
 type Type = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'null';
 
-export abstract class Schema {
+export class Schema {
     id: string; // format: uri
     $schema: string; // format: uri
     type: Type | Type[]; // if array: minItems: 1, uniqueItems: true
