@@ -1,8 +1,11 @@
 'use strict';
 
+type Type = 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object' | 'null';
+
 export interface Schema {
     id?: string; // format: uri
     $schema?: string; // format: uri
+    type?: Type | Type[]; // if array: minItems: 1, uniqueItems: true
     title?: string;
     description?: string;
     default?: any; // should validate against the schema in which it resides, but that isn’t required
