@@ -1,46 +1,32 @@
+import {number} from "./decorators";
 'use strict';
 
 import {Schema, StringSchema, NumberSchema, IntegerSchema, BooleanSchema, ArraySchema, ObjectSchema, NullSchema} from "./model";
 
-interface Builder<S extends Schema> {
-    build(definition: any): S;
+export class SchemaBuilder implements Schema {
+
 }
 
-export class SchemaBuilder implements Builder<Schema> {
-    private static SCHEMA_TYPES: { [name: string]: typeof Schema } = {
-        'string': StringSchema,
-        'number': NumberSchema,
-        'integer': IntegerSchema,
-        'boolean': BooleanSchema,
-        'array': ArraySchema,
-        'object': ObjectSchema,
-        'null': NullSchema
-    };
+export class StringSchemaBuilder extends SchemaBuilder implements StringSchema {
+    @number
+    minLength: any;
+}
 
-    // TODO look into how feasible it would be to write a nice preconditions library using decorators
-    build(definition: any): Schema {
-        if (!definition) {
-            throw new Error('No schema provided');
-        }
+export class NullSchemaBuilder extends SchemaBuilder implements NullSchema {
 
-        if (!definition['type']) {
-            throw new Error('Type inference not implemented');
-        }
+}
 
-        if (typeof definition.type !== 'string') {
-            throw new Error('TODO array schema types');
-        }
+export class BuilderException extends Error {
+    private cause: Error;
 
-        if (!SchemaBuilder.SCHEMA_TYPES[definition.type]) {
-            throw new Error('Unsupported type ' + definition.type);
-        }
+    constructor(message: string, cause?: Error) {
+        super(message);
 
-        return new NullSchemaBuilder().build(definition);
+        this.cause = cause;
     }
 }
 
-class NullSchemaBuilder implements Builder<NullSchema> {
-    build(definition: any) {
-        return new NullSchema();
-    }
-}
+let s = new StringSchemaBuilder();
+s.minLength = 1;
+
+console.log(s.minLength);

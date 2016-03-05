@@ -1,5 +1,17 @@
 'use strict';
 
+export function number(target: any, key: string) {
+    let descriptor = Object.getOwnPropertyDescriptor(target, key);
+
+    console.log("aaaaa" + descriptor);
+
+    //Object.defineProperty(target, key, {
+    //    set: (value: any) => {
+    //        target[key] = value + 1;
+    //    }
+    //});
+}
+
 function logProperty(target: any, key: string) {
 
     // property value
